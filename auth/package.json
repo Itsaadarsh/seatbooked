@@ -14,6 +14,6 @@
     "@types/body-parser": "^1.19.0"
   },
   "scripts": {
-    "start": "ts-node-dev src/index.ts"
+    "start": "ts-node-dev --poll src/index.ts"
   }
 }
