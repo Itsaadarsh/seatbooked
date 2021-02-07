@@ -1,4 +1,5 @@
 import express from 'express';
+import { BadReqError } from '../utils/errors/badReqError';
 import { DBConnectionError } from '../utils/errors/dbConnectionError';
 import { NotFound } from '../utils/errors/notFound';
 import { ReqValidationError } from '../utils/errors/reqValidationErrors';
@@ -18,6 +19,10 @@ export const errorHandler = (
   }
 
   if (err instanceof NotFound) {
+    return res.status(400).send({ errors: err.customErrors() });
+  }
+
+  if (err instanceof BadReqError) {
     return res.status(400).send({ errors: err.customErrors() });
   }
 

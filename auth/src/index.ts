@@ -8,6 +8,9 @@ import { signup } from './routes/signup';
 import { signout } from './routes/signout';
 import { errorHandler } from './middleware/errorHandling';
 import { NotFound } from './utils/errors/notFound';
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const app = express();
 app.use(json());

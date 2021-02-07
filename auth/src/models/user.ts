@@ -25,4 +25,4 @@ userSchema.statics.build = (props: USERDoc) => {
 
 const userModel = mongoose.model<USERDoc, USERModel>('User', userSchema);
 
-export default { userModel };
+export default userModel;
