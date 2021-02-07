@@ -1,4 +1,6 @@
 import express from 'express';
+import 'express-async-errors';
+import mongoose from 'mongoose';
 import { json } from 'body-parser';
 import { currentUser } from './routes/currentUser';
 import { signin } from './routes/signin';
@@ -14,12 +16,21 @@ app.use(currentUser);
 app.use(signup);
 app.use(signin);
 app.use(signout);
-
-app.all('*', (req, res) => {
+app.all('*', async (req, res) => {
   throw new NotFound();
 });
 
 app.use(errorHandler);
-app.listen(3000, () => {
+app.listen(3000, async () => {
+  try {
+    await mongoose.connect('mongodb://auth-mongo-service:27017/auth', {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Connected to DB');
+  } catch (err) {
+    console.log(err);
+  }
   console.log('Started at 3000');
 });

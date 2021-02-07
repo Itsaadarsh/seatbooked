@@ -11,7 +11,6 @@ router.post('/api/users/signup', validationMiddleware(), (req: express.Request, 
     throw new ReqValidationError(valiErrors.array());
   }
   const { email, password } = req.body;
-  throw new DBConnectionError();
   console.log('User Created');
   res.send({ message: 'User Created' });
 });
