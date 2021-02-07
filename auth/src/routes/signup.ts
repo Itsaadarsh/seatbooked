@@ -23,18 +23,20 @@ router.post(
     }
     bcrypt.hash(password, 11, async (err, hash) => {
       if (!err) {
-        const newUser = userModel.build({ email, password });
+        const newUser = userModel.build({ email, password: hash });
         await newUser.save();
         const token: string = await jwt.sign(
-          { email: newUser.email, userid: newUser._id },
-          process.env.JWT_TOKEN!,
-          {
-            expiresIn: '24h',
-          }
+          { email: newUser.email, id: newUser._id },
+          process.env.JWT_TOKEN!
         );
+
+        req.session = { token };
+
         res.status(201).json({
           message: 'User signed up',
           data: {
+            id: newUser._id,
+            email: newUser.email,
             token,
           },
         });

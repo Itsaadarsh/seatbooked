@@ -1,6 +1,7 @@
 import express from 'express';
 import 'express-async-errors';
 import mongoose from 'mongoose';
+import cookieSession from 'cookie-session';
 import { json } from 'body-parser';
 import { currentUser } from './routes/currentUser';
 import { signin } from './routes/signin';
@@ -8,12 +9,11 @@ import { signup } from './routes/signup';
 import { signout } from './routes/signout';
 import { errorHandler } from './middleware/errorHandling';
 import { NotFound } from './utils/errors/notFound';
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 const app = express();
+app.set('trust proxy', true);
 app.use(json());
+app.use(cookieSession({ signed: false, secure: true }));
 
 app.use(currentUser);
 app.use(signup);
