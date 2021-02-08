@@ -1,14 +1,16 @@
 import express from 'express';
+import { currentUser } from '../middleware/currentUser';
+import { authMiddleware } from '../middleware/requireAuth';
 
 const router = express.Router();
 
-router.get('/api/users/currentuser', (req: express.Request, res: express.Response) => {
-  res.send({
-    data: {
-      userid: 1,
-      username: 'itsaadarsh',
-    },
-  });
-});
+router.get(
+  '/api/users/currentuser',
+  currentUser,
+  authMiddleware,
+  async (req: express.Request, res: express.Response) => {
+    res.json({ currentUser: req.currentUser });
+  }
+);
 
 export { router as currentUser };
