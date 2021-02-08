@@ -9,7 +9,7 @@ router.get(
   currentUser,
   authMiddleware,
   async (req: express.Request, res: express.Response) => {
-    res.json({ currentUser: req.currentUser });
+    res.status(200).json({ currentUser: req.currentUser });
   }
 );
 
