@@ -1,3 +1,3 @@
-const IndexPage = () => <h1>Hey Mofos! This is AADARSH here!!</h1>;
+const IndexPage = () => <h1>Welcome to Seatbooked.com</h1>;
 
 export default IndexPage;
