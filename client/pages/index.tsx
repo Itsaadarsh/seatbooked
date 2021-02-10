@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { NextPage } from 'next';
 import axiosBuild from '../utils/buildClient';
 
@@ -7,13 +6,25 @@ interface PROPS {
 }
 
 const IndexPage: NextPage<PROPS> = ({ currentUser }) => {
-  console.log(currentUser);
-  return <h1>Welcome to Seatbooked.com</h1>;
+  return currentUser ? (
+    <h1>Welcome to SEATBOOKED, you are signed in!!</h1>
+  ) : (
+    <div>
+      <h1>Welcome to SEATBOOKED</h1>
+      <a href='/auth/signup'>SIGN UP</a>
+      <br />
+      <a href='/auth/signin'>SIGN IN</a>
+    </div>
+  );
 };
 
 IndexPage.getInitialProps = async ({ req }) => {
-  const axiosRes = await axiosBuild(req!).get('/api/users/currentuser');
-  return axiosRes.data;
+  try {
+    const axiosRes = await axiosBuild(req!).get('/api/users/currentuser');
+    return axiosRes.data;
+  } catch (err) {
+    return { currentUser: null };
+  }
 };
 
 export default IndexPage;
