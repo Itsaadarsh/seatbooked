@@ -294,6 +294,19 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
+"@itsaadarsh/auth@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@itsaadarsh/auth/-/auth-1.0.3.tgz#b6ab3558a627f5c809b7fe804c57e9ef4f4012d1"
+  integrity sha512-XLjmJc8F0RltWIwvdQMuRrxw4Pto9O6QYlCPSGIRdLKyA/uLlaZJbi02eolK0VFnq5yhH1Akm2PgO2bRDMFoTA==
+  dependencies:
+    "@types/cookie-session" "^2.0.42"
+    "@types/express" "^4.17.11"
+    "@types/jsonwebtoken" "^8.5.0"
+    cookie-session "^1.4.0"
+    express "^4.17.1"
+    express-validator "^6.9.2"
+    jsonwebtoken "^8.5.1"
+
 "@jest/console@^26.6.2":
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-26.6.2.tgz#4e04bc464014358b03ab4937805ee36a0aeb98f2"

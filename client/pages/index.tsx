@@ -6,16 +6,7 @@ interface PROPS {
 }
 
 const IndexPage: NextPage<PROPS> = ({ currentUser }) => {
-  return currentUser ? (
-    <h1>Welcome to SEATBOOKED, you are signed in!!</h1>
-  ) : (
-    <div>
-      <h1>Welcome to SEATBOOKED</h1>
-      <a href='/auth/signup'>SIGN UP</a>
-      <br />
-      <a href='/auth/signin'>SIGN IN</a>
-    </div>
-  );
+  return currentUser ? <h1>Welcome to SEATBOOKED, you are signed in!!</h1> : <h1>Welcome to SEATBOOKED</h1>;
 };
 
 IndexPage.getInitialProps = async ({ req }) => {

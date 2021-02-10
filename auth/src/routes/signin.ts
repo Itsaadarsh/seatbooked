@@ -2,10 +2,8 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import userModel from '../models/user';
-import { validationMiddleware } from '../middleware/validationSignup';
+import { validationMiddleware, ReqValidationError, BadReqError } from '@itsaadarsh/auth';
 import { validationResult } from 'express-validator';
-import { ReqValidationError } from '../utils/errors/reqValidationErrors';
-import { BadReqError } from '../utils/errors/badReqError';
 
 const router = express.Router();
 

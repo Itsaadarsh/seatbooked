@@ -6,8 +6,7 @@ import { currentUser } from './routes/currentUser';
 import { signin } from './routes/signin';
 import { signup } from './routes/signup';
 import { signout } from './routes/signout';
-import { errorHandler } from './middleware/errorHandling';
-import { NotFound } from './utils/errors/notFound';
+import { errorHandler, NotFound } from '@itsaadarsh/auth';
 
 const app = express();
 app.set('trust proxy', true);

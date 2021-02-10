@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import { useState } from 'react';
 import useRequest from '../../hooks/useRequest';
+import Link from 'next/link';
 
 const signup = () => {
   const [email, setEmail] = useState('');
@@ -37,7 +38,7 @@ const signup = () => {
       {errors}
       <button className='btn btn-primary'>Sign Up</button>
       <br />
-      <a href='/auth/signin'>Already have an account?</a>
+      <Link href='/auth/signin'>Already have an account?</Link>
     </form>
   );
 };

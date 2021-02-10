@@ -1,11 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
+import Navbar from '../components/header';
 import axiosBuild from '../utils/buildClient';
 
 const AppComponent: any = ({ Component, pageProps, currentUser }: AppProps) => {
   return (
     <div>
-      <h3>NavBAR {currentUser ? currentUser.email : null}</h3>
+      <Navbar currentUser={currentUser} />
       <Component {...pageProps} />
     </div>
   );
