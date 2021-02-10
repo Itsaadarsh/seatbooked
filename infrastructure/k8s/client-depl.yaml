@@ -1,4 +1,4 @@
-# Auth Deployment
+# Client Deployment
 
 apiVersion: apps/v1
 kind: Deployment
@@ -18,7 +18,7 @@ spec:
         - name: client
           image: itsaadarsh/sb-client
 ---
-# Auth Service
+# Client Service
 
 apiVersion: v1
 kind: Service
