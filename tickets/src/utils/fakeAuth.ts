@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 const fakeAuth = () => {
   const payload = {
-    id: '123123asdas',
+    id: new mongoose.Types.ObjectId().toHexString(),
     email: 'test@test.com',
   };
 

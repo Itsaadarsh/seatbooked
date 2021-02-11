@@ -14,12 +14,25 @@ router.put(
     if (!valiErrors.isEmpty()) {
       throw new ReqValidationError(valiErrors.array());
     }
+
+    const { title, price }: { title: string; price: number } = req.body;
     const isTicket = await ticketModel.findOne({ _id: req.params.id });
-    if (isTicket) {
-      return res.send(isTicket);
-    } else {
+    if (!isTicket) {
       throw new NotFound();
     }
+
+    if (isTicket.userID !== req.currentUser!.id) {
+      throw new BadReqError('Not Authorized');
+    }
+
+    // Updating the ticket
+    isTicket.set({
+      title,
+      price,
+    });
+    isTicket.save();
+
+    res.send(isTicket);
   }
 );
 
