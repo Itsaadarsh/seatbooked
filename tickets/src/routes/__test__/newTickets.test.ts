@@ -36,6 +36,7 @@ it('returns an error if an invalid price is provided', async () => {
 
 it('creates a ticket with valid inputs', async () => {
   let numOfTickets = await ticketModel.find({});
+
   expect(numOfTickets.length).toEqual(0);
   const response = await request(app).post('/api/tickets').set('Cookie', fakeAuth()).send({
     title: 'Master',
