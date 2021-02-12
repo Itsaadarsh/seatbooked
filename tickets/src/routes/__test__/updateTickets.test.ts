@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
+import { natsInstace } from '../../natsInstance';
 import fakeAuth from '../../utils/fakeAuth';
 
 it('returns a 404 if ID does not exists ', async () => {
@@ -81,4 +82,27 @@ it('updates the ticket successfully with the given parameters', async () => {
 
   expect(ticketRes.body.title).toEqual('Tenet');
   expect(ticketRes.body.price).toEqual(12);
+});
+
+it('publish an event', async () => {
+  const cookie = fakeAuth();
+  const response = await request(app).post('/api/tickets').set('Cookie', cookie).send({
+    title: 'Master',
+    price: 10,
+  });
+
+  const putRes = await request(app)
+    .put(`/api/tickets/${response.body._id}`)
+    .set('Cookie', cookie)
+    .send({
+      title: 'Tenet',
+      price: 12,
+    })
+    .expect(200);
+
+  expect(putRes.body.title).toEqual('Tenet');
+  expect(putRes.body.price).toEqual(12);
+
+  await request(app).get(`/api/tickets/${response.body._id}`).set('Cookie', cookie).send().expect(200);
+  expect(natsInstace.client.publish).toHaveBeenCalled();
 });

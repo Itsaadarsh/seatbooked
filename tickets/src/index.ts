@@ -5,7 +5,11 @@ import { randomBytes } from 'crypto';
 
 app.listen(3000, async () => {
   try {
-    await natsInstace.connect('seatbooked', randomBytes(4).toString('hex'), 'http://nats-service:4222');
+    await natsInstace.connect(
+      process.env.NATS_CLUSTER_ID!,
+      randomBytes(4).toString('hex'),
+      process.env.NATS_URL!
+    );
 
     natsInstace.client.on('close', () => {
       console.log('NATS CLOSED');

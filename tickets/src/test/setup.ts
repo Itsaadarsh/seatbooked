@@ -2,6 +2,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
 let mongo: any;
+jest.mock('../natsInstance.ts');
 
 beforeAll(async () => {
   process.env.JWT_TOKEN = '123';
@@ -16,6 +17,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  jest.clearAllMocks();
   const getAllCollection = await mongoose.connection.db.collections();
   getAllCollection.forEach(async collection => {
     await collection.deleteMany({});

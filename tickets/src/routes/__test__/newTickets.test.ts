@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import ticketModel from '../../models/tickets';
+import { natsInstace } from '../../natsInstance';
 import fakeAuth from '../../utils/fakeAuth';
 
 it('has a route handler listening to /api/tickets for post requests', async () => {
@@ -47,4 +48,13 @@ it('creates a ticket with valid inputs', async () => {
   expect(numOfTickets.length).toEqual(1);
   expect(numOfTickets[0].price).toEqual(10);
   expect(numOfTickets[0].title).toEqual('Master');
+});
+
+it('publish an event', async () => {
+  const response = await request(app).post('/api/tickets').set('Cookie', fakeAuth()).send({
+    title: 'Master',
+    price: 10,
+  });
+  expect(response.status).toEqual(201);
+  expect(natsInstace.client.publish).toHaveBeenCalled();
 });
