@@ -1,5 +1,6 @@
 import { randomBytes } from 'crypto';
-import nats, { Message } from 'node-nats-streaming';
+import nats from 'node-nats-streaming';
+import { TicketCreatedListener } from './utils/listener-ticketCreatedClass';
 console.clear();
 
 const stan = nats.connect('seatbooked', randomBytes(4).toString('hex'), {
@@ -13,18 +14,7 @@ stan.on('connect', () => {
     console.log('Connection closed');
     process.exit();
   });
-  const options = stan.subscriptionOptions().setManualAckMode(true);
-  const subscription = stan.subscribe('ticket:created', 'order-service-queueGrp', options);
-
-  subscription.on('message', (msg: Message) => {
-    const subData = msg.getData();
-
-    if (typeof subData === 'string') {
-      console.log(msg.getSequence(), subData);
-    }
-
-    msg.ack();
-  });
+  new TicketCreatedListener(stan).listen();
 });
 
 process.on('SIGINT', () => stan.close());
