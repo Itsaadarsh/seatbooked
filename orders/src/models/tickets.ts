@@ -1,13 +1,11 @@
 import mongoose from 'mongoose';
 
 interface TICKET {
-  userID: string;
   title: string;
   price: number;
 }
 
-interface TICKETDOC extends mongoose.Document {
-  userID: string;
+export interface TICKETDOC extends mongoose.Document {
   title: string;
   price: number;
 }
@@ -17,9 +15,8 @@ interface TICKETMODEL extends mongoose.Model<TICKETDOC> {
 }
 
 const ticketSchema = new mongoose.Schema({
-  userID: { type: mongoose.Schema.Types.String, required: true },
   title: { type: mongoose.Schema.Types.String, required: true },
-  price: { type: mongoose.Schema.Types.Number, required: true },
+  price: { type: mongoose.Schema.Types.Number, required: true, min: 0 },
 });
 
 ticketSchema.statics.build = (props: TICKETDOC) => {

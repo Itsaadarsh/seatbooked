@@ -1,9 +1,13 @@
 import { body } from 'express-validator';
+import mongoose from 'mongoose';
 
-const validationTickets = () => {
+const validationOrders = () => {
   return [
-    body('title').not().isEmpty().withMessage('Title is required'),
-    body('price').isFloat({ gt: 0 }).withMessage('Price must be greater than zero'),
+    body('ticketID')
+      .not()
+      .isEmpty()
+      .custom(input => mongoose.Types.ObjectId.isValid(input))
+      .withMessage('Ticket not provided'),
   ];
 };
-export default validationTickets;
+export default validationOrders;

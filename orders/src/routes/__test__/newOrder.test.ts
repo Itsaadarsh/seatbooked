@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { app } from '../../app';
-import ticketModel from '../../models/tickets';
+import ticketModel from '../../models/orders';
 import { natsInstace } from '../../natsInstance';
 import fakeAuth from '../../utils/fakeAuth';
 
