@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import axiosBuild from '../utils/buildClient';
+console.clear();
 
 interface PROPS {
   [key: string]: Object;

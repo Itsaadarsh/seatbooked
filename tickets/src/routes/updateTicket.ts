@@ -3,6 +3,8 @@ import { authMiddleware, ReqValidationError, NotFound, BadReqError } from '@itsa
 import validationTickets from '../utils/validationTickets';
 import { validationResult } from 'express-validator';
 import ticketModel from '../models/tickets';
+import { TicketUpdatedEmitter } from '../events/emiter/ticketUpdated';
+import { natsInstace } from '../natsInstance';
 const router = express.Router();
 
 router.put(
@@ -31,6 +33,13 @@ router.put(
       price,
     });
     isTicket.save();
+
+    new TicketUpdatedEmitter(natsInstace.client).emit({
+      id: isTicket._id,
+      title: isTicket.title,
+      price: isTicket.price,
+      userID: isTicket.userID,
+    });
 
     res.send(isTicket);
   }
