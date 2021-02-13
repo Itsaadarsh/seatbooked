@@ -5,6 +5,8 @@ import { validationResult } from 'express-validator';
 import ticketModel from '../models/tickets';
 import orderModel from '../models/orders';
 import { OrderStatus } from '../utils/orderStatus';
+import { OrderCreatedEmitter } from '../events/emiter/orderCreated';
+import { natsInstace } from '../natsInstance';
 const router = express.Router();
 
 router.post(
@@ -39,6 +41,18 @@ router.post(
     });
 
     await buildOrder.save();
+
+    new OrderCreatedEmitter(natsInstace.client).emit({
+      id: buildOrder._id,
+      expiresAt: buildOrder.expiresAt.toISOString(),
+      status: buildOrder.status,
+      ticket: {
+        id: isTicketAvailiable._id,
+        price: isTicketAvailiable.price,
+      },
+      userID: buildOrder.userID,
+    });
+
     res.status(201).send(buildOrder);
   }
 );

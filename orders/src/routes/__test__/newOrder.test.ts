@@ -4,6 +4,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import orderModel from '../../models/orders';
 import ticketModel from '../../models/tickets';
+import { natsInstace } from '../../natsInstance';
 import fakeAuth from '../../utils/fakeAuth';
 
 it('returns an error if the ticket does not exist', async () => {
@@ -41,4 +42,18 @@ it('returns the ordere', async () => {
     ticketID: buildTicket._id,
   });
   expect(response.status).toEqual(201);
+});
+
+it('publish an event', async () => {
+  const buildTicket = ticketModel.build({
+    title: 'Tenet',
+    price: 12,
+  });
+  await buildTicket.save();
+
+  const response = await request(app).post('/api/orders').set('Cookie', fakeAuth()).send({
+    ticketID: buildTicket._id,
+  });
+  expect(response.status).toEqual(201);
+  expect(natsInstace.client.publish).toHaveBeenCalled();
 });
