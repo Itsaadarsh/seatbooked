@@ -1,18 +1,20 @@
-// import express from 'express';
-// import { NotFound } from '@itsaadarsh/auth';
-// import ticketModel from '../models/orders';
-// const router = express.Router();
+import express from 'express';
+import { authMiddleware, NotFound } from '@itsaadarsh/auth';
+import orderModel from '../models/orders';
+const router = express.Router();
 
-// router.get('/api/tickets/:id', async (req: express.Request, res: express.Response) => {
-//   const getID = req.params.id;
+router.get('/api/orders/:id', authMiddleware, async (req: express.Request, res: express.Response) => {
+  const getID = req.params.id;
 
-//   const isTicketAvai = await ticketModel.findOne({ _id: getID });
+  const isOrderAvailiable = await orderModel
+    .findOne({ _id: getID, userID: req.currentUser?.id })
+    .populate('ticket');
 
-//   if (isTicketAvai) {
-//     res.status(200).send(isTicketAvai);
-//   } else {
-//     throw new NotFound();
-//   }
-// });
+  if (isOrderAvailiable) {
+    res.status(200).send(isOrderAvailiable);
+  } else {
+    throw new NotFound();
+  }
+});
 
-// export { router as getOrderByID };
+export { router as getOrderByID };

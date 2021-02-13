@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { OrderStatus } from '@itsaadarsh/auth';
+import { OrderStatus } from '../utils/orderStatus';
 import { TICKETDOC } from './tickets';
 
 interface ORDER {

@@ -1,48 +1,23 @@
-// import express from 'express';
-// import { authMiddleware, ReqValidationError, NotFound, BadReqError } from '@itsaadarsh/auth';
-// import validationTickets from '../utils/validationTickets';
-// import { validationResult } from 'express-validator';
-// import ticketModel from '../models/orders';
-// import { TicketUpdatedEmitter } from '../events/emiter/ticketUpdated';
-// import { natsInstace } from '../natsInstance';
-// const router = express.Router();
+import express from 'express';
+import { authMiddleware, NotFound } from '@itsaadarsh/auth';
+import orderModel from '../models/orders';
+import { OrderStatus } from '../utils/orderStatus';
+const router = express.Router();
 
-// router.delete(
-//   '/api/tickets/:id',
-//   authMiddleware,
-//   validationTickets(),
-//   async (req: express.Request, res: express.Response) => {
-//     const valiErrors = validationResult(req);
-//     if (!valiErrors.isEmpty()) {
-//       throw new ReqValidationError(valiErrors.array());
-//     }
+router.patch('/api/orders/:id', authMiddleware, async (req: express.Request, res: express.Response) => {
+  const getID = req.params.id;
 
-//     const { title, price }: { title: string; price: number } = req.body;
-//     const isTicket = await ticketModel.findOne({ _id: req.params.id });
-//     if (!isTicket) {
-//       throw new NotFound();
-//     }
+  const updateOrder = await orderModel
+    .findOne({ _id: getID, userID: req.currentUser?.id })
+    .populate('ticket');
 
-//     if (isTicket.userID !== req.currentUser!.id) {
-//       throw new BadReqError('Not Authorized');
-//     }
+  if (updateOrder) {
+    updateOrder.status = OrderStatus.Cancelled;
+    updateOrder.save();
+    res.status(200).send(updateOrder);
+  } else {
+    throw new NotFound();
+  }
+});
 
-//     // Updating the ticket
-//     isTicket.set({
-//       title,
-//       price,
-//     });
-//     isTicket.save();
-
-//     new TicketUpdatedEmitter(natsInstace.client).emit({
-//       id: isTicket._id,
-//       title: isTicket.title,
-//       price: isTicket.price,
-//       userID: isTicket.userID,
-//     });
-
-//     res.send(isTicket);
-//   }
-// );
-
-// export { router as deleteOrders };
+export { router as deleteOrder };

@@ -1,28 +1,20 @@
 import request from 'supertest';
 import { app } from '../../app';
+import ticketModel from '../../models/tickets';
 import fakeAuth from '../../utils/fakeAuth';
 
-it('fetching all the tickets', async () => {
-  await request(app)
-    .post('/api/tickets')
-    .set('Cookie', fakeAuth())
-    .send({
-      title: 'Tenet',
-      price: 10,
-    })
-    .expect(201);
+it('fetching all the orders of a particular user', async () => {
+  const userCookie = fakeAuth();
+  const buildTicket = ticketModel.build({
+    title: 'Tenet',
+    price: 12,
+  });
+  await buildTicket.save();
 
-  await request(app)
-    .post('/api/tickets')
-    .set('Cookie', fakeAuth())
-    .send({
-      title: 'John Wick 3',
-      price: 15,
-    })
-    .expect(201);
+  await request(app).post('/api/orders').set('Cookie', userCookie).send({
+    ticketID: buildTicket._id,
+  });
 
-  const getTicketRes = await request(app).get('/api/tickets').send().expect(200);
-
-  expect(getTicketRes.body.length).toEqual(2);
-  expect(getTicketRes.body[0].title).toEqual('Tenet');
+  const response = await request(app).get('/api/orders').set('Cookie', userCookie).send();
+  expect(response.status).toEqual(200);
 });

@@ -1,60 +1,44 @@
+import { OrderStatus } from '@itsaadarsh/auth';
+import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
-import ticketModel from '../../models/orders';
-import { natsInstace } from '../../natsInstance';
+import orderModel from '../../models/orders';
+import ticketModel from '../../models/tickets';
 import fakeAuth from '../../utils/fakeAuth';
 
-it('has a route handler listening to /api/tickets for post requests', async () => {
-  const response = await request(app).post('/api/tickets').send({});
-  expect(response.status).toEqual(400);
-});
-
-it('can only be accessed if the user is signed in', async () => {
-  const response = await request(app).post('/api/tickets').send({});
-  expect(response.status).toBe(400);
-});
-
-it('returns a status which is not equal to 400 if the user in signed in', async () => {
-  const response = await request(app).post('/api/tickets').set('Cookie', fakeAuth()).send({});
-  expect(response.status).toEqual(400);
-});
-
-it('returns an error if an invalid title is provided', async () => {
-  const response = await request(app).post('/api/tickets').set('Cookie', fakeAuth()).send({
-    title: '',
-    price: 10,
+it('returns an error if the ticket does not exist', async () => {
+  const response = await request(app).post('/api/orders').set('Cookie', fakeAuth()).send({
+    ticketID: new mongoose.Types.ObjectId(),
   });
   expect(response.status).toEqual(400);
 });
 
-it('returns an error if an invalid price is provided', async () => {
-  const response = await request(app).post('/api/tickets').set('Cookie', fakeAuth()).send({
-    title: 'Master',
-    price: -10,
+it('returns an error if the ticket is already reserved', async () => {
+  const ticket = ticketModel.build({
+    title: 'concert',
+    price: 20,
   });
-  expect(response.status).toEqual(400);
+  await ticket.save();
+  const order = orderModel.build({
+    ticket,
+    userID: 'laskdflkajsdf',
+    status: OrderStatus.Created,
+    expiresAt: new Date(),
+  });
+  await order.save();
+
+  await request(app).post('/api/orders').set('Cookie', fakeAuth()).send({ ticketId: ticket.id }).expect(400);
 });
 
-it('creates a ticket with valid inputs', async () => {
-  let numOfTickets = await ticketModel.find({});
-
-  expect(numOfTickets.length).toEqual(0);
-  const response = await request(app).post('/api/tickets').set('Cookie', fakeAuth()).send({
-    title: 'Master',
-    price: 10,
+it('returns the ordere', async () => {
+  const buildTicket = ticketModel.build({
+    title: 'Tenet',
+    price: 12,
   });
-  expect(response.status).not.toEqual(400);
-  numOfTickets = await ticketModel.find({});
-  expect(numOfTickets.length).toEqual(1);
-  expect(numOfTickets[0].price).toEqual(10);
-  expect(numOfTickets[0].title).toEqual('Master');
-});
+  await buildTicket.save();
 
-it('publish an event', async () => {
-  const response = await request(app).post('/api/tickets').set('Cookie', fakeAuth()).send({
-    title: 'Master',
-    price: 10,
+  const response = await request(app).post('/api/orders').set('Cookie', fakeAuth()).send({
+    ticketID: buildTicket._id,
   });
   expect(response.status).toEqual(201);
-  expect(natsInstace.client.publish).toHaveBeenCalled();
 });
