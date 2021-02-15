@@ -32,7 +32,7 @@ router.put(
       title,
       price,
     });
-    isTicket.save();
+    await isTicket.save();
 
     new TicketUpdatedEmitter(natsInstace.client).emit({
       id: isTicket._id,
