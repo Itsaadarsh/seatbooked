@@ -53,3 +53,13 @@ it('calling (ack) function successfully', async () => {
   await listener.onMessage(data, msg);
   expect(msg.ack).toHaveBeenCalled();
 });
+
+it('event with skipped version number', async () => {
+  const { listener, data, msg } = await setup();
+
+  data.version = 8;
+  try {
+    await listener.onMessage(data, msg);
+  } catch (err) {}
+  expect(msg.ack).not.toHaveBeenCalled();
+});

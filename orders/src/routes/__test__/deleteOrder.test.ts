@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
 import ticketModel from '../../models/tickets';
@@ -7,6 +8,7 @@ import fakeAuth from '../../utils/fakeAuth';
 it('cancelling an order', async () => {
   const userCookie = fakeAuth();
   const buildTicket = ticketModel.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Tenet',
     price: 12,
   });
@@ -27,6 +29,7 @@ it('cancelling an order', async () => {
 it('publish an event', async () => {
   const userCookie = fakeAuth();
   const buildTicket = ticketModel.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'Tenet',
     price: 12,
   });
