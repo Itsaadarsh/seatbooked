@@ -39,6 +39,7 @@ router.put(
       title: isTicket.title,
       price: isTicket.price,
       userID: isTicket.userID,
+      version: isTicket.version,
     });
 
     res.send(isTicket);

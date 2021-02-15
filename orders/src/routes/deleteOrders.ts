@@ -19,6 +19,7 @@ router.patch('/api/orders/:id', authMiddleware, async (req: express.Request, res
 
     new OrderCancelledEmitter(natsInstace.client).emit({
       id: updateOrder._id,
+      version: updateOrder.ticket.version,
       ticket: {
         id: updateOrder.ticket._id,
       },

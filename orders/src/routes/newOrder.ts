@@ -46,6 +46,7 @@ router.post(
       id: buildOrder._id,
       expiresAt: buildOrder.expiresAt.toISOString(),
       status: buildOrder.status,
+      version: isTicketAvailiable.version,
       ticket: {
         id: isTicketAvailiable._id,
         price: isTicketAvailiable.price,

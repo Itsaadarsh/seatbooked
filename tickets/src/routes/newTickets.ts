@@ -24,6 +24,7 @@ router.post(
       title: buildTicket.title,
       price: buildTicket.price,
       userID: buildTicket.userID,
+      version: buildTicket.version,
     });
     res.status(201).send(buildTicket);
   }

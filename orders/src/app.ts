@@ -14,9 +14,9 @@ app.use(json());
 app.use(cookieSession({ signed: false, secure: false }));
 app.use(currentUser);
 
+app.use(getAllOrders);
 app.use(newOrder);
 app.use(getOrderByID);
-app.use(getAllOrders);
 app.use(deleteOrder);
 app.all('*', async (req, res) => {
   throw new NotFound();
