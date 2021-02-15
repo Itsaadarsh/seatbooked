@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import { app } from './app';
 import { natsInstace } from './natsInstance';
 import { randomBytes } from 'crypto';
+import { TicketCreatedListener } from './events/listener/ticketCreated';
+import { TicketUpdatedListener } from './events/listener/ticketUpdated';
 
 app.listen(3000, async () => {
   try {
@@ -15,6 +17,9 @@ app.listen(3000, async () => {
       console.log('NATS CLOSED');
       process.exit();
     });
+
+    new TicketCreatedListener(natsInstace.client).listen();
+    new TicketUpdatedListener(natsInstace.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI!, {
       useNewUrlParser: true,

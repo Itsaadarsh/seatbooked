@@ -1,5 +1,13 @@
-import { Subjects, ORDERCREATED, Emitter } from '@itsaadarsh/auth';
+import { Emitter } from '@itsaadarsh/auth';
+import { ORDERCREATED } from '../../utils/interface.types';
+
+enum Subjects {
+  TicketCreated = 'ticket:created',
+  TicketUpdated = 'ticket:updated',
+  OrderCreated = 'order:created',
+  OrderCancelled = 'order:cancelled',
+}
 
 export class OrderCreatedEmitter extends Emitter<ORDERCREATED> {
-  readonly subject = Subjects.OrderCreated;
+  subject: Subjects.OrderCreated = Subjects.OrderCreated;
 }
