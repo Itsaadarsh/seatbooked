@@ -22,7 +22,9 @@ router.put(
     if (!isTicket) {
       throw new NotFound();
     }
-
+    if (isTicket.orderID) {
+      throw new BadReqError('Ticket is reserved');
+    }
     if (isTicket.userID !== req.currentUser!.id) {
       throw new BadReqError('Not Authorized');
     }
