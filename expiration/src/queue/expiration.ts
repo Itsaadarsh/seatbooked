@@ -1,4 +1,6 @@
 import Queue from 'bull';
+import { ExpirationCompleteEmitter } from '../events/emitter/expirationComplete';
+import { natsInstace } from '../natsInstance';
 
 interface PAYLOAD {
   orderID: string;
@@ -11,7 +13,9 @@ const expQueue = new Queue<PAYLOAD>('exp:orders', {
 });
 
 expQueue.process(async job => {
-  console.log('Expiration completed for ID : ', job.data.orderID);
+  new ExpirationCompleteEmitter(natsInstace.client).emit({
+    orderID: job.data.orderID,
+  });
 });
 
 export { expQueue };
