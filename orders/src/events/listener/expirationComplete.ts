@@ -1,9 +1,18 @@
-import { EXPIRATIONCOMPLETE, Listener, Subjects, TICKETCREATED } from '@itsaadarsh/auth';
+import { Listener } from '@itsaadarsh/auth';
 import { Message } from 'node-nats-streaming';
 import orderModel from '../../models/orders';
 import { natsInstace } from '../../natsInstance';
+import { EXPIRATIONCOMPLETE } from '../../utils/interface.types';
 import { OrderStatus } from '../../utils/orderStatus';
 import { OrderCancelledEmitter } from '../emiter/orderCancelled';
+
+enum Subjects {
+  TicketCreated = 'ticket:created',
+  TicketUpdated = 'ticket:updated',
+  OrderCreated = 'order:created',
+  OrderCancelled = 'order:cancelled',
+  ExpirationComplete = 'expiration:complete',
+}
 
 export class ExpirationCompleteListener extends Listener<EXPIRATIONCOMPLETE> {
   readonly subject = Subjects.ExpirationComplete;

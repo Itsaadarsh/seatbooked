@@ -38,3 +38,10 @@ export interface TICKETUPDATED {
     price: number;
   };
 }
+
+export interface EXPIRATIONCOMPLETE {
+  subject: Subjects.ExpirationComplete;
+  data: {
+    orderID: string;
+  };
+}
