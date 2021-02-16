@@ -31,7 +31,7 @@ router.post(
     }
 
     const expiration = new Date();
-    expiration.setSeconds(expiration.getSeconds() + 15 * 60);
+    expiration.setSeconds(expiration.getSeconds() + 1 * 60);
 
     const buildOrder = orderModel.build({
       userID: req.currentUser!.id,

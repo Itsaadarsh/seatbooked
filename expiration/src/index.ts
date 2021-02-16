@@ -1,11 +1,11 @@
 import { natsInstace } from './natsInstance';
-import { randomBytes } from 'crypto';
+import { OrderCreatedListener } from './events/listener/orderCreated';
 
 const connect = async () => {
   try {
     await natsInstace.connect(
       process.env.NATS_CLUSTER_ID!,
-      randomBytes(4).toString('hex'),
+      process.env.NATS_CLIENT_ID!,
       process.env.NATS_URL!
     );
 
@@ -13,6 +13,7 @@ const connect = async () => {
       console.log('NATS CLOSED');
       process.exit();
     });
+    new OrderCreatedListener(natsInstace.client).listen();
   } catch (err) {
     console.log(err);
   }
