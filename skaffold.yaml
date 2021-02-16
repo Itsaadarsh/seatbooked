@@ -43,8 +43,18 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+
     - image: itsaadarsh/sb-expiration
       context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+
+    - image: itsaadarsh/sb-payments
+      context: payments
       docker:
         dockerfile: Dockerfile
       sync:
