@@ -2,6 +2,8 @@ import { authMiddleware, BadReqError, NotFound, OrderStatus, ReqValidationError 
 import express from 'express';
 import { validationResult } from 'express-validator';
 import orderModel from '../models/orders';
+import paymentModel from '../models/payments';
+import { stripe } from '../stripe';
 import validationPayments from '../utils/validationPayments';
 
 const router = express.Router();
@@ -17,21 +19,43 @@ router.post(
     }
 
     const { token, orderID } = req.body;
-    const order = await orderModel.findById(orderID);
+
+    const order = await orderModel.findOne({ _id: orderID });
 
     if (!order) {
       throw new NotFound();
     }
-
-    if (order.userID !== req.currentUser?.id) {
-      throw new BadReqError('Not Authorized');
+    if (order.userID !== req.currentUser!.id) {
+      throw new BadReqError('not authorized');
     }
-
     if (order.status === OrderStatus.Cancelled) {
-      throw new BadReqError('This order has been cancelled');
+      throw new BadReqError('Cannot pay for an cancelled order');
     }
 
-    res.send({ success: true });
+    const charge = await stripe.charges.create({
+      currency: 'usd',
+      amount: order.price * 100,
+      source: token,
+      description: 'test',
+      shipping: {
+        name: 'Jenny Rosen',
+        address: {
+          line1: '510 Townsend St',
+          postal_code: '98140',
+          city: 'San Francisco',
+          state: 'CA',
+          country: 'US',
+        },
+      },
+    });
+
+    const payment = paymentModel.build({
+      orderID,
+      stripeID: charge.id,
+    });
+    await payment.save();
+
+    res.status(201).send({ success: true });
   }
 );
 

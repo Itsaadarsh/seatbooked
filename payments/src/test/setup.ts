@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 
 let mongo: any;
 jest.mock('../natsInstance.ts');
-
 beforeAll(async () => {
   process.env.JWT_TOKEN = '123';
   mongo = new MongoMemoryServer();
