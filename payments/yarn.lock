@@ -295,9 +295,9 @@
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
 "@itsaadarsh/auth@^1.0.3":
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/@itsaadarsh/auth/-/auth-1.0.13.tgz#5c677826989313ba1aa8a3e9183ebcc3dd720c9a"
-  integrity sha512-oPyn9hWzSaBVG7Jpda+b4xs9QRiZYdmvLZ7zDEr2dsL+Rhs/sbXjwaL5Q6Ho8npV18uzsXQRZrcHcqmOPW2jqw==
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/@itsaadarsh/auth/-/auth-1.0.14.tgz#51b35eecdafc7fef4d336c260b2585f54f100e8f"
+  integrity sha512-toKwY8gETTnPfzAtJWHTCI69h7avYiGyxIj+k3I4txsUkqiadGwvLUsW4poR/O1QSGR6qZF42sz0VtqRgwPbnw==
   dependencies:
     "@types/cookie-session" "^2.0.42"
     "@types/express" "^4.17.11"

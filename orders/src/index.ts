@@ -5,6 +5,7 @@ import { randomBytes } from 'crypto';
 import { TicketCreatedListener } from './events/listener/ticketCreated';
 import { TicketUpdatedListener } from './events/listener/ticketUpdated';
 import { ExpirationCompleteListener } from './events/listener/expirationComplete';
+import { PaymentCreatedListener } from './events/listener/paymentCreated';
 
 app.listen(3000, async () => {
   try {
@@ -22,6 +23,7 @@ app.listen(3000, async () => {
     new TicketCreatedListener(natsInstace.client).listen();
     new TicketUpdatedListener(natsInstace.client).listen();
     new ExpirationCompleteListener(natsInstace.client).listen();
+    new PaymentCreatedListener(natsInstace.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI!, {
       useNewUrlParser: true,

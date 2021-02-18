@@ -1,8 +1,10 @@
 import { authMiddleware, BadReqError, NotFound, OrderStatus, ReqValidationError } from '@itsaadarsh/auth';
 import express from 'express';
 import { validationResult } from 'express-validator';
+import { PaymentCreatedEmitter } from '../events/emitter/paymentCreated';
 import orderModel from '../models/orders';
 import paymentModel from '../models/payments';
+import { natsInstace } from '../natsInstance';
 import { stripe } from '../stripe';
 import validationPayments from '../utils/validationPayments';
 
@@ -55,7 +57,13 @@ router.post(
     });
     await payment.save();
 
-    res.status(201).send({ success: true });
+    new PaymentCreatedEmitter(natsInstace.client).emit({
+      id: payment.id,
+      orderID: payment.orderID,
+      stripeID: payment.stripeID,
+    });
+
+    res.status(201).send({ id: payment.id });
   }
 );
 
