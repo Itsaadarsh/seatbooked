@@ -1,27 +1,30 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 import Navbar from '../components/header';
-import axiosBuild from '../utils/buildClient';
+import axiosBuild from '../api/buildClient';
 
 const AppComponent: any = ({ Component, pageProps, currentUser }: AppProps) => {
   return (
     <div>
       <Navbar currentUser={currentUser} />
-      <Component {...pageProps} />
+      <div className='container'>
+        <Component currentUser={currentUser} {...pageProps} />
+      </div>
     </div>
   );
 };
 
 AppComponent.getInitialProps = async (appCtx: any) => {
   try {
-    const axiosRes = await axiosBuild(appCtx.ctx.req).get('/api/users/currentuser');
+    const client = axiosBuild(appCtx.ctx.req);
+    const { data } = await client.get('/api/users/currentuser');
     let pageProps = {};
     if (appCtx.Component.getInitialProps) {
-      pageProps = await appCtx.Component.getInitialProps(appCtx.ctx);
+      pageProps = await appCtx.Component.getInitialProps(appCtx.ctx, client, data.currentUser);
     }
     return {
       pageProps,
-      ...axiosRes.data,
+      ...data,
     };
   } catch (err) {
     return { currentUser: null };

@@ -10,7 +10,7 @@ const useRequest = ({
   url: string;
   method: string;
   body: object;
-  onSuccess: () => {};
+  onSuccess: any;
 }) => {
   const [errors, setErrors] = useState(<></>);
 
@@ -19,7 +19,7 @@ const useRequest = ({
       setErrors(<></>);
       const res = await (axios as any)[method](url, body);
       if (onSuccess) {
-        onSuccess();
+        onSuccess(res.data);
       }
       return res.data;
     } catch (err) {
