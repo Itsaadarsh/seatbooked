@@ -6,7 +6,7 @@ import { OrderCancelledListener } from './events/listener/orderCancelled';
 import { OrderCreatedListener } from './events/listener/orderCreated';
 
 app.listen(3000, async () => {
-  console.log('Tickets service getting started......');
+  console.log('Tickets service getting started......!');
   try {
     await natsInstace.connect(
       process.env.NATS_CLUSTER_ID!,
