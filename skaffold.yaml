@@ -23,7 +23,7 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: '**/*.tsx'
+          - src: '**/*.js'
             dest: .
 
     - image: itsaadarsh/sb-tickets

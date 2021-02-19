@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Router from 'next/router';
-import useRequest from '../../hooks/useRequest';
+import useRequest from '../../hooks/use-request';
 
-export default function NewTicket() {
+const NewTicket = () => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
-  const { reqHook, errors } = useRequest({
+  const { doRequest, errors } = useRequest({
     url: '/api/tickets',
     method: 'post',
     body: {
@@ -15,40 +15,48 @@ export default function NewTicket() {
     onSuccess: () => Router.push('/'),
   });
 
-  const onSubmit = (event: React.FormEvent) => {
+  const onSubmit = (event) => {
     event.preventDefault();
 
-    reqHook();
+    doRequest();
   };
 
   const onBlur = () => {
     const value = parseFloat(price);
+
     if (isNaN(value)) {
       return;
     }
+
     setPrice(value.toFixed(2));
   };
 
   return (
     <div>
-      <h1>Post a new ticket here!</h1>
+      <h1>Create a Ticket</h1>
       <form onSubmit={onSubmit}>
-        <div className='form-group'>
+        <div className="form-group">
           <label>Title</label>
-          <input value={title} onChange={e => setTitle(e.target.value)} className='form-control' />
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="form-control"
+          />
         </div>
-        <div className='form-group'>
+        <div className="form-group">
           <label>Price</label>
           <input
             value={price}
             onBlur={onBlur}
-            onChange={e => setPrice(e.target.value)}
-            className='form-control'
+            onChange={(e) => setPrice(e.target.value)}
+            className="form-control"
           />
         </div>
         {errors}
-        <button className='btn btn-primary'>Post</button>
+        <button className="btn btn-primary">Submit</button>
       </form>
     </div>
   );
-}
+};
+
+export default NewTicket;
