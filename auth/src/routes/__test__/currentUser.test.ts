@@ -8,7 +8,7 @@ it('get the current user data', async () => {
       email: 'test@test.com',
       password: '12345',
     })
-    .expect(201);
+    .expect(401);
 
   const getCookie = res.get('Set-Cookie');
   const userDataRes = await request(app).get('/api/users/currentuser').set('Cookie', getCookie).expect(200);
