@@ -6,6 +6,7 @@ import { OrderCreatedListener } from './events/listeners/orderCreated';
 import { OrderCancelledListener } from './events/listeners/orderCancelled';
 
 app.listen(3000, async () => {
+  console.log('Payments service getting started......');
   try {
     await natsInstace.connect(
       process.env.NATS_CLUSTER_ID!,
