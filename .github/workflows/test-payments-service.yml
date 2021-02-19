@@ -1,7 +1,7 @@
 name: test-payments-service
 
 on:
-  pull_request
+  pull_request:
     paths:
       - 'payments/**'
 

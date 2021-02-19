@@ -1,7 +1,7 @@
 name: test-orders-service
 
 on:
-  pull_request
+  pull_request:
     paths:
       - 'orders/**'
 
