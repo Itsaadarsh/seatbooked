@@ -8,6 +8,8 @@ import { ExpirationCompleteListener } from './events/listener/expirationComplete
 import { PaymentCreatedListener } from './events/listener/paymentCreated';
 
 app.listen(3000, async () => {
+  console.log('Orders service getting started......');
+
   try {
     await natsInstace.connect(
       process.env.NATS_CLUSTER_ID!,
