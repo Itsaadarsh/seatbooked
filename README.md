@@ -1,4 +1,4 @@
-<h1 align="center">SeatBooked</h1>
+<h1 align="center">SeatBooked 💺</h1>
 <h3 align="center">An Online Ticket Booking Platform</h3>
 
 ## Built with Microservice Architecture
