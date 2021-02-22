@@ -31,12 +31,9 @@ Follow the steps below, after cloning the project:
 skaffold dev
 ```
 
+**Note - Use the following command to create .env secrets `kubectl create secret generic [secret-name] --from-literal=[secret-key]=[secret-value]`. For example `kubectl create secret generic JwtTokenKey --from-literal=JWT_KEY=XYZ`**
+
 This command will start up all the above mentioned services at once by going through kubernetes files in `./infrastructure/k8s` directory and download all the docker images from dockerhub required to run the application locally.
 
-Enjoy 🎉
-
-**Note - Use the following command to create .env secrets `kubectl create secret generic [secret-name] --from-literal=[secret-key]=[secret-value]`. For example kubectl create secret generic JwtTokenKey --from-literal=JWT_KEY=XYZ**
-
-## Contributing
-
-Please read our [Contributing Guide](./CONTRIBUTING.md) before submitting a Pull Request to the project.
+Feel free to raise any issues or to make a pull request.
+Enjoy, Happy Coding 🎉
