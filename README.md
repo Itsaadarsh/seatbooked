@@ -1,7 +1,7 @@
 <h1 align="center">SeatBooked 💺</h1>
 <h3 align="center">An Online Ticket Booking Platform</h3>
 
-## Built with Microservice Architecture
+## Built with Microservice Architecture.
 
 - **Authentication Service** `/auth` - This service is responsible for managing the Authentication workflow of the platform.
 - **Client Service** `/client` - This service is responsible for managing the Client-side web view of the platform built using Next.js.
