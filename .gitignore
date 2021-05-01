@@ -1,3 +1,10 @@
+<<<<<<< HEAD
 node_modules/
 .next
 natsTest/
+=======
+node_modules/
+.next
+natsTest/
+.env
+>>>>>>> 1e4b8005d42c9e7ecb4bc9aeb4c7c85e57aa05ad
